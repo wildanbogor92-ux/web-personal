@@ -1,0 +1,131 @@
+========================================
+CONTACT FORM SETUP INSTRUCTIONS
+========================================
+
+⚠️ IMPORTANT: Node.js is NOT currently installed on your system!
+
+STEP 1: INSTALL NODE.JS (REQUIRED)
+------------------------
+1. Download Node.js from: https://nodejs.org/
+2. Choose "LTS" (Long Term Support) version
+3. Install it on your computer
+4. Restart your computer after installation
+5. Verify installation by opening terminal/command prompt and type:
+   node --version
+   npm --version
+
+You should see version numbers if installed correctly.
+
+
+STEP 2: INSTALL DEPENDENCIES
+-----------------------------
+1. Open terminal/command prompt
+2. Navigate to your project folder:
+   cd "e:\WILDAN\Portofolio Muhammad Wildan Jasiruddin"
+3. Install required packages:
+   npm install
+
+
+STEP 3: SETUP GMAIL APP PASSWORD
+---------------------------------
+Important: You need a Gmail App Password, NOT your regular Gmail password!
+
+1. Go to: https://myaccount.google.com/apppasswords
+2. Sign in with your Google account (wildanbogor92@gmail.com)
+3. Select "Mail" and your device
+4. Click "Generate"
+5. Copy the 16-character password (it will look like: xxxx xxxx xxxx xxxx)
+6. Save this password - you'll need to enter it in the contact form
+
+
+STEP 4: START THE SERVER
+-------------------------
+1. In terminal/command prompt, run:
+   npm start
+
+   Or for development mode:
+   npm run dev
+
+2. You should see:
+   "🍥 Server is running on port 3000"
+   "📧 Email service ready"
+
+
+STEP 5: OPEN THE WEBSITE
+-------------------------
+1. Open index.html in your browser
+2. The server must be running (Step 4) for the contact form to work
+
+
+STEP 6: TEST THE CONTACT FORM
+------------------------------
+1. Scroll to the Contact section
+2. Fill in:
+   - Your Name
+   - Your Email
+   - Subject
+   - Message
+3. In SMTP Configuration section, enter:
+   - Your Gmail Address: wildanbogor92@gmail.com
+   - Your Gmail App Password: (the 16-character password from Step 3)
+4. Click "Send Message"
+5. Check your email at wildanbogor92@gmail.com
+
+
+========================================
+TROUBLESHOOTING
+========================================
+
+Problem: "Connection failed"
+Solution: Make sure the server is running (npm start)
+
+Problem: "Invalid email or password"
+Solution: 
+- Use Gmail App Password, not regular password
+- Get it from: https://myaccount.google.com/apppasswords
+- Enable 2-Step Verification if not already enabled
+
+Problem: Server won't start
+Solution: 
+- Make sure Node.js is installed
+- Run: npm install
+- Check if port 3000 is not already in use
+
+
+========================================
+SECURITY NOTES
+========================================
+
+1. The email credentials are entered by the user each time
+2. Credentials are NOT stored anywhere
+3. They are only used to send that one email
+4. Make sure to use App Password, not your main Gmail password
+5. Never share your App Password publicly
+
+
+========================================
+EMAIL DELIVERY
+========================================
+
+All messages will be sent to: wildanbogor92@gmail.com
+
+Email format includes:
+- Sender name
+- Sender email
+- Subject
+- Message content
+- Nicely formatted HTML with Naruto theme 🍥
+
+
+========================================
+NEED HELP?
+========================================
+
+If you encounter any issues:
+1. Make sure Node.js is installed
+2. Make sure all dependencies are installed (npm install)
+3. Make sure the server is running (npm start)
+4. Use Gmail App Password, not regular password
+5. Check your internet connection
+
+Believe it! 🍥
