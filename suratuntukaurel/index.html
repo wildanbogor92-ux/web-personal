@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surat untuk Aurel</title>
+    <style>
+        /* Dark theme styling */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0c0c2b, #1a1a40);
+            color: #f8f9fa;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Start screen */
+        #startScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 35, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        #startButton {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            padding: 20px 50px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.3);
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        #startButton:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(255, 107, 107, 0.4);
+        }
+
+        #startButton:active {
+            transform: scale(0.98);
+        }
+
+        /* Main content */
+        #mainContent {
+            display: none;
+            padding: 20px;
+            text-align: center;
+        }
+
+        #title {
+            font-size: 2rem;
+            margin: 20px 0;
+            height: 2.5rem;
+            text-shadow: 0 0 10px rgba(255, 182, 193, 0.7);
+        }
+
+        /* Envelope styling */
+        #envelopeContainer {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            margin: 40px auto;
+            cursor: pointer;
+            perspective: 1000px;
+        }
+
+        #envelope {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        #envelope.open {
+            transform: rotateX(180deg);
+        }
+
+        .envelope-front, .envelope-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 5px;
+        }
+
+        .envelope-front {
+            background: linear-gradient(135deg, #2c2c54, #40407a);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .envelope-back {
+            background: linear-gradient(135deg, #1e1e3f, #333366);
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: -50%;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-bottom: 100px solid #2c2c54;
+            transform-origin: bottom;
+            transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 3;
+        }
+
+        #envelope.open .envelope-flap {
+            transform: rotateX(180deg);
+        }
+
+        .heart-icon {
+            font-size: 3rem;
+            color: #ff6b81;
+            animation: pulse 2s infinite;
+        }
+
+        /* Letter styling */
+        #letter {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            background: #f8f9fa;
+            color: #343a40;
+            border-radius: 5px;
+            padding: 20px;
+            transform: translateY(0);
+            transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-height: 300px;
+            overflow-y: auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        #envelope.open ~ #letter {
+            transform: translateY(-250px);
+        }
+
+        #letterContent {
+            text-align: left;
+            line-height: 1.6;
+        }
+
+        #letterContent p {
+            margin: 15px 0;
+        }
+        
+        /* Hearts animation */
+        .falling-heart {
+            position: absolute;
+            font-size: 1.5rem;
+            color: #ff6b81;
+            animation: fall linear forwards;
+            z-index: -1;
+            user-select: none;
+        }
+
+        /* Audio controls */
+        #audioControls {
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        /* Animations */
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 480px) {
+            #title {
+                font-size: 1.5rem;
+            }
+            
+            #envelopeContainer {
+                width: 250px;
+                height: 170px;
+            }
+            
+            .envelope-flap {
+                border-left: 125px solid transparent;
+                border-right: 125px solid transparent;
+                border-bottom: 85px solid #2c2c54;
+            }
+            
+            #startButton {
+                padding: 15px 40px;
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Scrollbar styling */
+        #letter::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #letter::-webkit-scrollbar-track {
+            background: #e9ecef;
+        }
+
+        #letter::-webkit-scrollbar-thumb {
+            background: #adb5bd;
+            border-radius: 4px;
+        }
+
+        #letter::-webkit-scrollbar-thumb:hover {
+            background: #6c757d;
+        }
+        
+
+    </style>
+</head>
+<body>
+    <!-- Start Screen -->
+    <div id="startScreen">
+        <h1 style="color: #ff6b81; text-shadow: 0 0 10px rgba(255, 107, 129, 0.5);">💌 Surat untuk aurel 💌</h1>
+        <button id="startButton">Klik untuk mulai</button>
+    </div>
+
+    <!-- Main Content -->
+    <div id="mainContent">
+        <h1 id="title"></h1>
+        
+        <!-- Falling Hearts Container -->
+        <div id="heartsContainer"></div>
+        
+        <!-- Envelope -->
+        <div id="envelopeContainer">
+            <div id="envelope">
+                <div class="envelope-flap"></div>
+                <div class="envelope-front">
+                    <div class="heart-icon">❤️</div>
+                </div>
+                <div class="envelope-back"></div>
+            </div>
+            <div id="letter">
+                <div id="letterContent">
+                    <p>Hai Aurel,</p>
+                    
+                    <p>Rel, gw mau jujur jujuran ni, sebenarnya gw ada rasa ke lu dari setahun yang lalu, sebenernya gw gugup ngomong dan pengenya ngomong langsung pas kemah tapi gw susah nyari momen, pengen nunggu pas masuk sekolah tapi kayaknya kelamaan😅</p>
+                    
+                    <p>Gw bukan bermaksud maksa atau gimana tapi gw cuma gamau nyimpen rasa terlalu lama karna itu rasanya kaya nge ganjel aja di gw, sorry gw ngomong gini di chat, lu terlalu sempurna buat gw, sedangkan gw masih banyak kurangnya.</p>
+                    
+                    <p>Sebenernya gw ragu ngomong kaya gini gw takut merusak keadaan, tapi gw sadar perasaan ini terlalu berharga buat cuma di pendam.</p>
+                    
+                    <p>Sorry sorry nih rell gw gabisa nyusun kata yang romantis hehe, udah bertahun tahun ga romantis romantisan. Gw pengen tau apa tanggapan lu perasaan gw ke lu, gw ga maksa ko, gw siap terima apapun jawaban lu, dan gw terima resiko nya.</p>
+                    
+                    <p>dari,<br>[wildan]</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Audio Controls -->
+        <div id="audioControls">
+            <audio id="backgroundMusic" loop>
+                <source src="diego-gonzalez-thankyou-for-everything.mp3" type="audio/mpeg">
+                Browser kamu nggak support audio.
+            </audio>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const startScreen = document.getElementById('startScreen');
+        const startButton = document.getElementById('startButton');
+        const mainContent = document.getElementById('mainContent');
+        const titleElement = document.getElementById('title');
+        const envelope = document.getElementById('envelope');
+        const letter = document.getElementById('letter');
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        const heartsContainer = document.getElementById('heartsContainer');
+
+        // Start screen functionality
+        startButton.addEventListener('click', () => {
+            startScreen.style.display = 'none';
+            mainContent.style.display = 'block';
+            
+            // Start animations
+            startTypingAnimation();
+            startHeartsAnimation();
+            
+            // Play music
+            playMusic();
+        });
+
+        // Typing animation for title
+        function startTypingAnimation() {
+            const text = "Untuk Aurel 🤍";
+            let i = 0;
+            
+            titleElement.innerHTML = "";
+            
+            function typeWriter() {
+                if (i < text.length) {
+                    titleElement.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 150);
+                }
+            }
+            
+            setTimeout(typeWriter, 500);
+        }
+
+        // Falling hearts animation
+        function startHeartsAnimation() {
+            setInterval(createHeart, 300);
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.classList.add('falling-heart');
+            
+            // Random position
+            const startPosition = Math.random() * window.innerWidth;
+            heart.style.left = `${startPosition}px`;
+            
+            // Random size
+            const size = Math.random() * 20 + 15;
+            heart.style.fontSize = `${size}px`;
+            
+            // Random animation duration
+            const duration = Math.random() * 5 + 5;
+            heart.style.animationDuration = `${duration}s`;
+            
+            heartsContainer.appendChild(heart);
+            
+            // Remove heart after animation completes
+            setTimeout(() => {
+                heart.remove();
+            }, duration * 1000);
+        }
+
+        // Envelope click functionality
+        envelope.addEventListener('click', () => {
+            envelope.classList.toggle('open');
+        });
+
+        // Audio controls
+        function playMusic() {
+            backgroundMusic.volume = 0.5;
+            backgroundMusic.play().catch(e => console.log("Autoplay prevented:", e));
+        }
+
+        // Touch support for mobile devices
+        envelope.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            envelope.classList.toggle('open');
+        });
+
+    </script>
+</body>
+</html>
