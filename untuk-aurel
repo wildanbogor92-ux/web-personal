@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Untuk Aurel 🤍</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+  font-family:'Segoe UI',sans-serif;
+  color:#fff;
+}
+
+/* ===== LAYAR MULAI ===== */
+.start-screen{
+  position:fixed;
+  inset:0;
+  background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  z-index:10;
+  text-align:center;
+  padding:20px;
+}
+.start-title{
+  font-size:26px;
+  margin-bottom:18px;
+}
+.start-btn{
+  padding:14px 28px;
+  border:none;
+  border-radius:30px;
+  background:#fff;
+  color:#203a43;
+  font-size:16px;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 10px 25px rgba(0,0,0,.35);
+}
+
+/* ===== TEKS INTRO ===== */
+.intro{
+  position:absolute;
+  top:10%;
+  font-size:24px;
+  font-weight:600;
+  text-align:center;
+  padding:0 16px;
+}
+
+/* ===== ANIMASI HATI ===== */
+.heart{
+  position:fixed;
+  top:-10px;
+  font-size:16px;
+  animation:fall linear infinite;
+  opacity:.8;
+}
+@keyframes fall{
+  to{transform:translateY(110vh);opacity:0}
+}
+
+/* ===== AMPLOP (UKURAN HP) ===== */
+.envelope{
+  width:260px;
+  height:170px;
+  background:#1e1e1e;
+  position:relative;
+  cursor:pointer;
+  box-shadow:0 15px 30px rgba(0,0,0,.6);
+  border-radius:10px;
+}
+.envelope::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:#2a2a2a;
+  clip-path:polygon(0 0,50% 55%,100% 0,100% 100%,0 100%);
+}
+.letter{
+  position:absolute;
+  top:12px;
+  left:12px;
+  width:236px;
+  height:145px;
+  background:#111;
+  padding:12px;
+  transform:translateY(85px);
+  opacity:0;
+  transition:.9s;
+  border-radius:8px;
+  overflow-y:auto;
+  color:#ddd;
+}
+.envelope.open .letter{
+  transform:translateY(-120px);
+  opacity:1;
+}
+
+h3{
+  margin-top:0;
+  font-size:14px;
+  text-align:center;
+}
+p{
+  font-size:12px;
+  line-height:1.6;
+}
+small{
+  display:block;
+  text-align:center;
+  margin-top:8px;
+  color:#aaa;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LAYAR MULAI -->
+<div class="start-screen" id="start">
+  <div class="start-title">Untuk Aurel 🤍</div>
+  <button class="start-btn" onclick="mulai()">Klik untuk mulai</button>
+</div>
+
+<!-- TEKS INTRO -->
+<div class="intro" id="typing"></div>
+
+<!-- AMPLOP -->
+<div class="envelope" onclick="this.classList.toggle('open')">
+  <div class="letter">
+    <h3>Untuk kamu, Aurel 🤍</h3>
+    <p>
+      rel, gw mau jujur jujuran ni, sebenarnya gw ada rasa ke lu dari setahun yang lalu.
+      sebenarnya gw gugup ngomong dan pengenya ngomong langsung pas kemah tapi gw susah nyari momen,
+      pengen nunggu pas masuk sekolah tapi kayaknya kelamaan😅.
+      <br><br>
+      gw bukan bermaksud maksa atau gimana tapi gw cuma gamau nyimpen rasa terlalu lama karna itu rasanya
+      kaya nge ganjel aja di gw. sorry gw ngomong gini di chat.
+      <br><br>
+      lu terlalu sempurna buat gw, sedangkan gw masih banyak kurangnya.
+      sebenarnya gw ragu ngomong kaya gini gw takut merusak keadaan,
+      tapi gw sadar perasaan ini terlalu berharga buat cuma di pendam.
+      <br><br>
+      sorry sorry nih rell gw gabisa nyusun kata yang romantis hehe,
+      udah bertahun tahun ga romantis romantisan.
+      <br><br>
+      gw pengen tau apa tanggapan lu perasaan gw ke lu,
+      gw ga maksa ko, gw siap terima apapun jawaban lu,
+      dan gw terima resiko nya.
+    </p>
+    <small>— dari gw yang jujur</small>
+  </div>
+</div>
+
+<!-- MUSIK -->
+<audio id="musik" loop>
+  <source src="diego-gonzalez-thankyou-for-everything.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// tombol mulai
+function mulai(){
+  document.getElementById("start").style.display="none";
+  document.getElementById("musik").play();
+  ketik();
+}
+
+// efek ngetik
+const teks="Untuk Aurel 🤍";
+let i=0;
+function ketik(){
+  if(i<teks.length){
+    document.getElementById("typing").innerHTML+=teks.charAt(i);
+    i++;
+    setTimeout(ketik,120);
+  }
+}
+
+// hati jatuh
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="🤍";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=(3+Math.random()*5)+"s";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),8000);
+},350);
+</script>
+
+</body>
+</html>
